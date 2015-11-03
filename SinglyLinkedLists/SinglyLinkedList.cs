@@ -27,23 +27,24 @@ namespace SinglyLinkedLists
 
         public void AddAfter(string existingValue, string value)
         {
-            //SinglyLinkedListNode prevNode = firstNode;
-            //SinglyLinkedListNode newNode = new SinglyLinkedListNode(value);
-            //if (this.First() == null)
-            //{
-            //    throw new ArithmeticException("Node doesn't exist");
-            //}
-            //else
-            //{
-            //    while(prevNode != null)
-            //    {
-            //        if(prevNode.IsLast())
-            //        {
-            //            AddLast(value);
-            //        }
-            //        prevNode = prevNode.Next;
-            //    }
-            //}
+            SinglyLinkedListNode prevNode = firstNode;
+            SinglyLinkedListNode newNode = new SinglyLinkedListNode(value);
+            if (this.First() == null || existingValue == null)
+            {
+                throw new ArgumentException("Node doesn't exist");
+            }
+            while(prevNode != null)
+            {
+                if (prevNode.Value != existingValue)
+                {
+                    throw new ArgumentException("No existingValue");
+                }
+                else if (prevNode.IsLast())
+                {
+                    AddLast(value);
+                }
+                prevNode = prevNode.Next;
+            }
         }
 
         public void AddFirst(string value)
@@ -80,7 +81,21 @@ namespace SinglyLinkedLists
         // NOTE: There is more than one way to accomplish this.  One is O(n).  The other is O(1).
         public int Count()
         {
-            throw new NotImplementedException();
+            SinglyLinkedListNode negNode = firstNode;
+            int length = 1;
+            if(this.First() == null)
+            {
+                return 0;
+            }
+            else
+            {
+                while (!negNode.IsLast())
+                {
+                    length++;
+                    negNode = negNode.Next;
+                }
+            }
+            return length;
         }
 
         public string ElementAt(int index)
