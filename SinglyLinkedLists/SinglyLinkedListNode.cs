@@ -11,7 +11,6 @@ namespace SinglyLinkedLists
         // Used by the visualizer.  Do not change.
         public static List<SinglyLinkedListNode> allNodes = new List<SinglyLinkedListNode>();
 
-        // READ: http://msdn.microsoft.com/en-us/library/aa287786(v=vs.71).aspx
         private SinglyLinkedListNode next;
         public SinglyLinkedListNode Next
         {
@@ -51,20 +50,45 @@ namespace SinglyLinkedLists
             allNodes.Add(this);
         }
 
-        public override string ToString()
+        public override bool Equals(Object obj)
         {
-            return this.value.ToString();
+            SinglyLinkedListNode node = obj as SinglyLinkedListNode;
+            if (node == null)
+            {
+                return false;
+            }
+            else
+            {
+                return (this.Value == node.Value);
+            }
         }
 
-        // READ: http://msdn.microsoft.com/en-us/library/system.icomparable.compareto.aspx
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return value;
+        }
+
         public int CompareTo(Object obj)
         {
-            throw new NotImplementedException();
+            SinglyLinkedListNode node = obj as SinglyLinkedListNode;
+            if(node != null)
+            {
+                return this.Value.CompareTo(node.Value);
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         public bool IsLast()
         {
-            throw new NotImplementedException();
+            return (Next == null);
         }
     }
 }
