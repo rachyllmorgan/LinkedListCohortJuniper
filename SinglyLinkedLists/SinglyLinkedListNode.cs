@@ -29,6 +29,7 @@ namespace SinglyLinkedLists
         public string Value 
         {
             get { return value; }
+            set { this.value = value; }
         }
 
         public static bool operator <(SinglyLinkedListNode node1, SinglyLinkedListNode node2)
