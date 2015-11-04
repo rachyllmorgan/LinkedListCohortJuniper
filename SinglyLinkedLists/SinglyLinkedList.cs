@@ -40,11 +40,11 @@ namespace SinglyLinkedLists
                     {
                         SinglyLinkedListNode newNode = new SinglyLinkedListNode(value);
                         SinglyLinkedListNode oldNext = prevNode.Next;
-                        newNode = oldNext;
+                        newNode.Next = oldNext;
                         prevNode.Next = newNode;
 
                         found = true;
-                        //count++;
+                        count++;
                         break;
                     }
                     prevNode = prevNode.Next;
@@ -109,7 +109,7 @@ namespace SinglyLinkedLists
                     {
                         break;
                     }
-                    if (node.Next == null)
+                    if (node.IsLast())
                     {
                         throw new ArgumentOutOfRangeException();
                     }
@@ -207,12 +207,25 @@ namespace SinglyLinkedLists
 
         public bool IsSorted()
         {
-            throw new NotImplementedException();
+            if(firstNode == null || firstNode.Next == null)
+            {
+                return true;
+            }
+
+            SinglyLinkedListNode left = firstNode;
+            SinglyLinkedListNode right = firstNode.Next;
+            while (right != null)
+            {
+                if (left > right)
+                {
+                    return false;
+                }
+                left = right;
+                right = left.Next;
+            }
+            return true;
         }
 
-        // HINT 1: You can extract this functionality (finding the last item in the list) from a method you've already written!
-        // HINT 2: I suggest writing a private helper method LastNode()
-        // HINT 3: If you highlight code and right click, you can use the refactor menu to extract a method for you...
         private SinglyLinkedListNode lastNode;
         public string Last()
         {
@@ -221,11 +234,10 @@ namespace SinglyLinkedLists
             {
                 return null;
             }
-            while (!current.IsLast())
+            else
             {
-                current = current.Next;
+                return this.ElementAt(-1);
             }
-            return current.Value;
         }
 
         public void Remove(string value)
@@ -252,43 +264,51 @@ namespace SinglyLinkedLists
 
         public void Sort()
         {
-            //SinglyLinkedList nodes = new SinglyLinkedList();
-            //if(this.First() == null)
-            //{
-            //    //empty list
-            //}
-            //else
-            //{
-            //    while (!firstNode.IsLast())
-            //    {
-            //        if (firstNode.IsLast())
-            //        {
-            //            break;
-            //        }
-            //        firstNode.CompareTo(firstNode.Next);
-            //        nodes.AddFirst(firstNode.Value);
-            //    }
-            //    firstNode = firstNode.Next;
-            //}
-            //List<string> sortList = new List<string>(nodes.ToArray());
+            while (!IsSorted())
+            {
+                SinglyLinkedListNode left = firstNode;
+                SinglyLinkedListNode right = firstNode.Next;
+                while (right != null)
+                {
+                    if (left > right)
+                    {
+                        string value = left.Value;
+                        left.Value = right.Value;
+                        right.Value = value;
+                        //swap them
+                    }
+                    left = right;
+                    right = left.Next;
+                }
+            }
         }
 
         public string[] ToArray()
         {
-            SinglyLinkedListNode node = firstNode;
-            if (node != null)
-            {
-                string[] answer = new string[Count()];
+            LinkedList<string> sentence = new LinkedList<string>();
+            SinglyLinkedListNode currentNode = firstNode;
 
-                for (int i = 0; i < Count(); i++)
-                {
-                    answer[i] = ElementAt(i);
-                }
-                return answer;
+            if (this.First() == null)
+            {
+                return sentence.ToArray();
+            }
+            else if (firstNode.IsLast())
+            {
+                sentence.AddFirst(firstNode.ToString());
+                return sentence.ToArray();
             }
             else
             {
-                return new string[] { };
+                while (currentNode != null)
+                {
+                    sentence.AddLast(currentNode.ToString());
+                    if (currentNode.IsLast())
+                    {
+                        break;
+                    }
+                    currentNode = currentNode.Next;
+                }
+                return sentence.ToArray();
             }
         }
     }

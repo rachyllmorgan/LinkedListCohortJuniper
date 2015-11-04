@@ -415,6 +415,20 @@ namespace UnitTestSinglyLinkedLists
         }
 
         [TestMethod]
+        public void IsSortedOnSortedMultipleItemList()
+        {
+            SinglyLinkedList list = new SinglyLinkedList("apple", "bar", "foo");
+            Assert.IsTrue(list.IsSorted());
+        }
+
+        [TestMethod]
+        public void IsSortedOnUnsortedMultipleItemList()
+        {
+            SinglyLinkedList list = new SinglyLinkedList("foo", "boo", "apple");
+            Assert.IsFalse(list.IsSorted());
+        }
+
+        [TestMethod]
         public void IsSortedOnListOfDuplicates()
         {
             SinglyLinkedList list = new SinglyLinkedList("foo", "foo");
